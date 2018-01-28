@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+        <style>
+        @import url('https://fonts.googleapis.com/css?family=Nova+Mono');
+
+        html, body {
+            background-color: #111;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            font-family: 'Nova Mono', monospace;
+        }
+
+        div {
+            margin: 50px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        h1 {
+            letter-spacing: 16px;
+            font-size: 6em;
+            font-weight: 100;
+            color: #EEDDE0;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px #EC637B,
+                0 0 10px rgba(230, 161, 173, 0.41),
+                0 0 100px #E6A1AD,
+                0 0 500px #F36780,
+                5px 9px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        span.off {
+            color: rgba(46, 46, 46, 0.61);
+            text-shadow: 7px 7px 5px rgba(0, 0, 0, 0.5);
+        }
+        a {
+            text-decoration: none;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <a href="http://zeph.lafassett.com">
+                <h1 id="sign">lafassett</h1>
+            </a>
+        </div>
+        <script>
+
+        function random(from,to) {
+            return Math.floor(Math.random()*(to-from+1)+from);
+        }
+
+        // simulate the flickring
+        function flickr(chr, flicks, intervals) {
+            var interval = setInterval(function _flick() {
+                flicks--;
+                // toggle flickering
+                (chr.hasClass('off')) ? chr.removeClass('off') : chr.addClass('off');
+                if (flicks === 0) {
+                    // chance to stay on
+                    (random(1,4) >= 3) ? chr.addClass('off') : chr.removeClass('off');
+                    clearInterval(interval);
+                }
+            }, intervals);
+        }
+
+        $(document).ready(function () {
+            var sign = $('#sign');
+            var temp  = '';
+            for (var i = 0; i < sign.text().length; i++) {
+                temp += '<span>' + sign.text()[i] + '</span>';
+            }
+            sign.html(temp);
+            var chars = $('span');
+            setInterval(function _timeout() {
+                var letter = $(chars[random(0, chars.length)]);
+                flickr(letter, random(7, 20), random(3, 50));
+            }, 2000);
+        });
+        </script>
+    </body>
+</html>
